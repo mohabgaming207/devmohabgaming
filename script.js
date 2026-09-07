@@ -6221,3 +6221,138 @@ document.addEventListener('DOMContentLoaded',function(){
     }
 })();
 
+
+
+/* =========================================================
+   DOWNLOAD GATE — عداد 5 ثواني ثم الاشتراك ثم فتح رابط التحميل
+   يعمل تلقائياً على كل أزرار التحميل في كل الصفحات
+   (ألعاب / تطبيقات / برامج / أفلام / مسلسلات / كرتون ...)
+   ========================================================= */
+(function () {
+    const YT_URL = 'https://www.youtube.com/@MohabGaming17';
+    const TK_URL = 'https://www.tiktok.com/@mohabgaming18';
+    const WAIT_SECONDS = 5;
+    const STORE_KEY = 'mg_subscribed_v1';
+
+    let pendingUrl = null;
+    let timerId = null;
+    let clicked = { yt: false, tk: false };
+
+    function el(id) { return document.getElementById(id); }
+
+    function loadSubs() {
+        try {
+            const s = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+            return { yt: !!s.yt, tk: !!s.tk };
+        } catch (e) { return { yt: false, tk: false }; }
+    }
+    function saveSubs() {
+        try { localStorage.setItem(STORE_KEY, JSON.stringify(clicked)); } catch (e) {}
+    }
+
+    function isDownloadAnchor(a) {
+        if (!a || a.tagName !== 'A') return false;
+        if (a.classList.contains('download-btn') || a.classList.contains('download-link')) return true;
+        if (a.closest('.download-links') || a.closest('.download-buttons') || a.closest('.download-section')) return true;
+        return false;
+    }
+
+    function updateGoButton() {
+        const go = el('dlGateGo');
+        const txt = el('dlGateGoText');
+        if (!go) return;
+        const ok = clicked.yt && clicked.tk;
+        go.disabled = !ok;
+        if (txt) txt.textContent = ok ? 'اضغط هنا للتحميل الآن' : 'اشترك في القناتين أولاً';
+        const yt = el('dlGateYT'), tk = el('dlGateTK');
+        if (yt) yt.classList.toggle('done', clicked.yt);
+        if (tk) tk.classList.toggle('done', clicked.tk);
+    }
+
+    function closeGate() {
+        const gate = el('dlGate');
+        if (timerId) { clearInterval(timerId); timerId = null; }
+        if (gate) { gate.classList.remove('active'); gate.setAttribute('aria-hidden', 'true'); }
+        pendingUrl = null;
+    }
+
+    function showStep(n) {
+        const s1 = el('dlGateStep1'), s2 = el('dlGateStep2');
+        if (s1) s1.hidden = (n !== 1);
+        if (s2) s2.hidden = (n !== 2);
+    }
+
+    function openGate(url) {
+        const gate = el('dlGate');
+        if (!gate) { window.open(url, '_blank'); return; }
+        pendingUrl = url;
+        clicked = loadSubs();
+        updateGoButton();
+        gate.classList.add('active');
+        gate.setAttribute('aria-hidden', 'false');
+        showStep(1);
+
+        const ring = el('dlRingFg');
+        const countEl = el('dlGateCount');
+        const CIRC = 327;
+        let left = WAIT_SECONDS;
+        if (countEl) countEl.textContent = left;
+        if (ring) { ring.style.transition = 'none'; ring.style.strokeDashoffset = '0';
+                    void ring.getBoundingClientRect(); ring.style.transition = 'stroke-dashoffset 1s linear'; }
+
+        if (timerId) clearInterval(timerId);
+        timerId = setInterval(function () {
+            left--;
+            if (countEl) countEl.textContent = left > 0 ? left : 0;
+            if (ring) ring.style.strokeDashoffset = String(CIRC * (1 - left / WAIT_SECONDS));
+            if (left <= 0) {
+                clearInterval(timerId); timerId = null;
+                showStep(2);
+                updateGoButton();
+            }
+        }, 1000);
+    }
+
+    // اعتراض كل ضغطة على أزرار التحميل
+    document.addEventListener('click', function (e) {
+        const a = e.target.closest && e.target.closest('a');
+        if (!isDownloadAnchor(a)) return;
+        const href = a.getAttribute('href');
+        if (!href || href === '#' || href.startsWith('javascript')) return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (typeof showToast === 'function') showToast('جارٍ تجهيز رابط التحميل...', 'info');
+        openGate(a.href);
+    }, true);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const gate = el('dlGate');
+        if (!gate) return;
+
+        const closeBtn = el('dlGateClose');
+        if (closeBtn) closeBtn.addEventListener('click', closeGate);
+        gate.addEventListener('click', function (e) { if (e.target === gate) closeGate(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeGate(); });
+
+        const yt = el('dlGateYT'), tk = el('dlGateTK');
+        if (yt) yt.addEventListener('click', function () {
+            clicked.yt = true; saveSubs(); updateGoButton();
+            if (typeof showToast === 'function') showToast('تم فتح قناة اليوتيوب، لا تنسى الاشتراك 🔔', 'success');
+        });
+        if (tk) tk.addEventListener('click', function () {
+            clicked.tk = true; saveSubs(); updateGoButton();
+            if (typeof showToast === 'function') showToast('تم فتح حساب تيك توك، لا تنسى المتابعة ❤️', 'success');
+        });
+
+        const go = el('dlGateGo');
+        if (go) go.addEventListener('click', function () {
+            if (go.disabled || !pendingUrl) return;
+            const url = pendingUrl;
+            closeGate();
+            if (typeof showToast === 'function') showToast('بدء التحميل...', 'success');
+            window.open(url, '_blank');
+        });
+    });
+
+    window.MG_SOCIALS = { youtube: YT_URL, tiktok: TK_URL };
+})();
