@@ -1077,3 +1077,73 @@ footer{
     .latest-slide{ width:260px;height:160px; }
     .home-section-title{ font-size:1.35rem; }
 }
+
+
+/* =========================================================
+   DOWNLOAD GATE (عداد 5 ثواني + اشتراك يوتيوب وتيك توك)
+   ========================================================= */
+.dl-gate{
+  position:fixed; inset:0; z-index:99999; display:none;
+  align-items:center; justify-content:center; padding:1rem;
+  background:rgba(3,6,15,.82); backdrop-filter:blur(10px);
+}
+.dl-gate.active{ display:flex; animation:dlFade .25s ease; }
+@keyframes dlFade{ from{opacity:0} to{opacity:1} }
+.dl-gate-box{
+  position:relative; width:100%; max-width:460px; text-align:center;
+  padding:2.4rem 1.6rem 1.8rem;
+  border-radius:22px;
+  background:linear-gradient(160deg,#0f172a 0%,#131c33 60%,#1a2547 100%);
+  border:1px solid rgba(150,180,255,.28);
+  box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.03) inset;
+  animation:dlPop .3s cubic-bezier(.2,.9,.3,1.4);
+}
+@keyframes dlPop{ from{transform:translateY(18px) scale(.94); opacity:0} to{transform:none; opacity:1} }
+.dl-gate-box h3{ color:#e6efff; font-size:1.25rem; margin:.6rem 0 .4rem; }
+.dl-gate-box p{ color:#a8b6d9; font-size:.95rem; margin:0 0 1.2rem; }
+.dl-gate-close{
+  position:absolute; top:10px; left:12px; width:36px; height:36px; border-radius:50%;
+  background:rgba(255,255,255,.06); border:1px solid rgba(150,180,255,.2);
+  color:#a8b6d9; cursor:pointer; transition:.2s;
+}
+.dl-gate-close:hover{ background:#ff5d78; color:#fff; }
+
+/* countdown ring */
+.dl-gate-ring{ position:relative; width:120px; height:120px; margin:0 auto .6rem; }
+.dl-gate-ring svg{ width:120px; height:120px; transform:rotate(-90deg); }
+.dl-ring-bg{ fill:none; stroke:rgba(255,255,255,.08); stroke-width:8; }
+.dl-ring-fg{
+  fill:none; stroke:url(#none); stroke:#3b74ff; stroke-width:8; stroke-linecap:round;
+  stroke-dasharray:327; stroke-dashoffset:0;
+  transition:stroke-dashoffset 1s linear;
+  filter:drop-shadow(0 0 8px rgba(59,116,255,.8));
+}
+.dl-gate-count{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-size:2.6rem; font-weight:800; color:#5fd0ff; text-shadow:0 0 18px rgba(95,208,255,.6);
+}
+
+/* socials */
+.dl-gate-socials{ display:flex; flex-direction:column; gap:.8rem; margin-bottom:1.2rem; }
+.dl-gate-social{
+  display:flex; align-items:center; justify-content:center; gap:.6rem;
+  padding:.9rem 1rem; border-radius:14px; font-weight:700; font-size:1rem;
+  color:#fff; text-decoration:none; transition:.25s; position:relative;
+}
+.dl-gate-social i:first-child{ font-size:1.3rem; }
+.dl-gate-social.yt{ background:linear-gradient(135deg,#ff0000,#c40000); box-shadow:0 8px 24px rgba(255,0,0,.28); }
+.dl-gate-social.tk{ background:linear-gradient(135deg,#25f4ee 0%,#111 45%,#fe2c55 100%); box-shadow:0 8px 24px rgba(254,44,85,.28); }
+.dl-gate-social:hover{ transform:translateY(-3px); filter:brightness(1.08); }
+.dl-gate-tick{ opacity:0; font-size:.95rem; background:#22d3a3; color:#052; border-radius:50%; padding:4px; transition:.25s; }
+.dl-gate-social.done .dl-gate-tick{ opacity:1; }
+.dl-gate-social.done{ outline:2px solid #22d3a3; }
+
+.dl-gate-go{
+  width:100%; padding:1rem; border:none; border-radius:14px; cursor:pointer;
+  font-size:1.05rem; font-weight:800; color:#fff;
+  background:linear-gradient(135deg,#255bef,#1a44c2); transition:.25s;
+}
+.dl-gate-go:disabled{ opacity:.45; cursor:not-allowed; }
+.dl-gate-go:not(:disabled):hover{ transform:translateY(-3px); box-shadow:0 12px 30px rgba(37,91,239,.45); }
+.dl-gate-note{ display:block; margin-top:.9rem; color:#7280a8; font-size:.8rem; }
+@media (max-width:480px){ .dl-gate-box{ padding:2rem 1rem 1.4rem; } .dl-gate-count{ font-size:2.2rem; } }
