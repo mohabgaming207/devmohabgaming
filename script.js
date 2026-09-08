@@ -1,6 +1,6 @@
     (function(){
         const PRODUCTS = [
-            { id:'s1', cat:'games', name:'FIVEM', desc:'اكونت فايف ام تقدر تلعب جميع السيرفرات انتا وصحابك ', price:{EGP:80,USD:1.5}, img:'https://logos-world.net/wp-content/uploads/2021/03/FiveM-Symbol.png', badge:'مميز' },
+            { id:'s1', cat:'games', name:'FIVEM', desc:'اكونت فايف ام تقدر تلعب جميع السيرفرات انتا وصحابك ', price:{EGP:100,USD:2.0}, img:'https://logos-world.net/wp-content/uploads/2021/03/FiveM-Symbol.png', badge:'مميز' },
             { id:'s2', cat:'games', name:'FC 26', desc:'حساب جديد فول اكسس بايميلك وهيبقى ملكك 100% المنصه ستيم FC 26', price:{EGP:180,USD:3.5}, img:'https://gaming-cdn.com/images/products/19774/orig/ea-sports-fc-26-xbox-one-xbox-series-x-s-microsoft-store-cover.jpg?v=1780558468', badge:'عرض' },
             { id:'s3', cat:'games', name:'RUST', price:{EGP:450,USD:10}, img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/252490/header.jpg?t=1781536981', badge:'جديد' },
             { id:'s4', cat:'games', name:'Minecraft Java and Bedrock', desc:'حساب جديد فول اكسس بايميلك وهيبقى ملكك 100% المنصه ستيم Minecraft', price:{EGP:600,USD:12}, img:'https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/key-art/Minecraft_JavaBedrock_Net_1170x500.jpg', badge:'مميز' },
@@ -303,7 +303,7 @@
                 releaseYear: "2026",
                 language: "العربية + متعدد اللغات",
                 videoId: "#",
-                version: "v0.1.47",
+                version: "v0.1.60",
                 onlineStatus: true, // متاح اونلاين
                 systemRequirements: {
                     minimum: {
@@ -322,9 +322,9 @@
                     }
                 },
                 downloadLinks: [
-                    { name: "تحميل اللعبة", url: "https://linkjust.com/37cdHQg8EpurB", icon: "fas fa-download" },
-                    { name: "ملف الاونلاين", url: "https://gofile.io/d/14qO8m04", icon: "fas fa-download" },
-                    { name: "تحميل اخر للعبة", url: "https://linkjust.com/37cdHQg8EpurB", icon: "fas fa-download" }
+                    { name: "تحميل اللعبة", url: "https://linkjust.com/r8MmjacJI67mL6q", icon: "fas fa-download" },
+                    { name: "ملف الاونلاين", url: "https://gofile.io/d/DOpWVTMF", icon: "fas fa-download" },
+                    { name: "تحميل اخر للعبة", url: "https://linkjust.com/r8MmjacJI67mL6q", icon: "fas fa-download" }
                 ]
             },
             twistedparty: {
